@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}
+Transactions
+{% endblock title %}
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Transactions</h2>
+    {% if transactions %}
+    <table class="table table-dark table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Meal Name</th>
+                <th>Category</th>
+                <th>Area</th>
+                <th>Total Bill</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ transaction.name }}</td>
+                <td>{{ transaction.category }}</td>
+                <td>{{ transaction.area }}</td>
+                <td>{{ transaction.bill_total }}</td>
+                <td>
+                    <a href="#">Edit</a>
+                    <a href="{% url 'delete-transaction' transaction.id %}">Delete</a>
+                    <a href="{% url 'print-bill-page' transaction.id %}">Print Bill</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No transactions found</p>
+    {% endif %}
+</div>
+{% endblock content %}

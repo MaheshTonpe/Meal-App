@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}
+Api Data
+{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="container">
+    {% if meals %}
+    <table class="table table-dark table-striped mt-3">
+        <p class="fw-bolder mt-5">Food Table</p>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Area</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meal in meals %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><img src="{{ meal.thumbnail }}" alt="{{ meal.name }}" width="100"></td>
+                <td>{{ meal.category }}</td>
+                <td>{{ meal.name }}</td>
+                <td>{{ meal.area }}</td>
+                <td>
+                    <button type="submit" name="order_btn" value="{{i.id}}" class="btn btn-success">Print Bill</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No data available</p>
+    {% endif %}
+</div>
+{% endblock content %}

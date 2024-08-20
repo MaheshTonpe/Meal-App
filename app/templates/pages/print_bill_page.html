@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+Print Bill Page
+{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="heading text-center py-3">
+        <h1>Meal Approved</h1>
+    </div>
+    <hr>
+    <div class="meal-details">
+        <h5>Meal Details</h5>
+        {% if bill %}
+            <p>Transaction ID: {{ bill.id }}</p>
+            <p>Dish Name: {{ bill.name }}</p>
+            <p>Area: {{ bill.area }}</p>
+            <p>Price: {{ bill.bill_total }}</p>
+        {% else %}
+            <p>No bill details available.</p>
+        {% endif %}
+        <hr>
+        <h5>Total Bill: {{ bill.bill_total }}</h5>
+        <hr>
+        <p class="text-center">Thank you for your order! See you next time!</p>
+    </div>
+    <button class="btn btn-primary" id="printButton" onclick="this.style.display='none'; window.print();">Print Bill</button>
+</div>
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}
+Api Data
+{% endblock title %}
+{% block content %}
+<div class="container">
+    {% if meals %}
+    <table class="table table-dark table-striped mt-3">
+        <p class="fw-bolder mt-5">Food Table</p>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Area</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meal in meals %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><img src="{{ meal.strMealThumb }}" alt="{{ meal.strMeal }}" width="100"></td>
+                <td>{{ meal.strMeal }}</td>
+                <td>{{ meal.strCategory }}</td>
+                <td>{{ meal.strArea }}</td>
+                <td>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#billModal{{ meal.idMeal }}">Order</button>
+                </td>
+            </tr>
+
+            <!-- Modal -->
+            <div class="modal fade" id="billModal{{ meal.idMeal }}" tabindex="-1"
+                aria-labelledby="billModalLabel{{ meal.idMeal }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="billModalLabel{{ meal.idMeal }}">{{ meal.strMeal }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Category:</strong> {{ meal.strCategory }}</p>
+                            <p><strong>Area:</strong> {{ meal.strArea }}</p>
+                            <p><strong>Instructions:</strong> {{ meal.strInstructions }}</p>
+                            <form method="post">
+                                {% csrf_token %}
+                                <!-- <input type="hidden" name="meal_id" value="{{ meal.idMeal }}"> -->
+                                <input type="hidden" name="meal_name" value="{{ meal.strMeal }}">
+                                <input type="hidden" name="meal_category" value="{{ meal.strCategory }}">
+                                <input type="hidden" name="meal_area" value="{{ meal.strArea }}">
+                                <div class="mb-3">
+                                    <label for="bill_total" class="form-label">Total Bill</label>
+                                    <input type="number" step="0.01" class="form-control" name="bill_total"
+                                        id="bill_total" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No data available</p>
+    {% endif %}
+</div>
+{% endblock content %}
